@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+
+# IDE / editor
+.vscode/
+.claude/
+
+# Compiled binaries
+train_fast.exe
+interception.dll
+
+# Trained model weights (too large for git)
+ntuple_weights.bin
+ntuple_weights.npz
+
+# User-specific calibration / region configs
+game_window.json
+region.json
+next_tile_region.json
+tile_references.json
+
+# Debug / calibration output
+debug_grid.png
+debug_raw.png
+calibration_snapshot.png
+
+# Accidental output
+-o
