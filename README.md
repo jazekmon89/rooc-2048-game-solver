@@ -1,6 +1,6 @@
-# 2048 Auto-Solver
+# Ragnarok Origin Classic - 2048 Auto-Solver
 
-Watches a region of your screen, parses the 2048 board, computes the best move with expectimax, and sends a swipe. Runs in the background as a Python script.
+Watches a region of ROOC Client, parses the 2048 board, computes the best move with expectimax, and sends a swipe. Runs in the background as a Python script. Requires Interception to be installed in order for the key events to work.
 
 ## Pipeline
 
@@ -11,13 +11,33 @@ screenshot region → split 4×4 → color-match each cell → expectimax → mo
 ## Setup (Windows)
 
 ```powershell
-cd ai2048
+cd rooc-2048-game-solver
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
 Python 3.10+ recommended.
+
+### Installing the Interception driver
+
+The solver uses the [Interception](https://github.com/oblitum/Interception) driver to send kernel-level key events that the game client can actually receive. Without it, input will not work.
+
+1. Download **Interception.zip** from the [latest release](https://github.com/oblitum/Interception/releases).
+2. Extract it and copy the DLL into this project folder:
+   - 64-bit Python → `Interception/library/x64/interception.dll`
+   - 32-bit Python → `Interception/library/x86/interception.dll`
+3. Open an **admin** command prompt in the extracted Interception folder and run:
+   ```
+   install-interception.exe /install
+   ```
+4. **Reboot** your PC — the driver only loads after a restart.
+5. Verify the setup:
+   ```powershell
+   python setup_interception.py
+   ```
+
+> If you want to use a different input method (mouse drag, keyboard, DirectInput, PostMessage), change `INPUT_METHOD` in `config.py` — Interception is only required when `INPUT_METHOD = "interception"`.
 
 ## First run
 
@@ -110,13 +130,21 @@ Want a smarter solver? Bump `SEARCH_DEPTH` to 4 (still real-time at 1s/move) or 
 ## Project layout
 
 ```
-ai2048/
-├── main.py            # Orchestrator + setup flow
-├── region_picker.py   # Tkinter overlay for picking the board area
-├── vision.py          # Screenshot, split, classify, calibrate
-├── solver.py          # 2048 mechanics + expectimax
-├── actions.py         # Swipe via mouse drag or arrow keys
-├── config.py          # All tunable constants
+rooc-2048-game-solver/
+├── main.py               # Orchestrator + setup flow
+├── region_picker.py      # Tkinter overlay for picking the board area
+├── vision.py             # Screenshot, split, classify, calibrate
+├── solver.py             # 2048 mechanics + expectimax
+├── ntuple_network.py     # N-tuple network for board evaluation
+├── train_ntuple.py       # Training script for n-tuple weights
+├── train_fast.c          # C implementation of fast training
+├── actions.py            # Swipe via mouse drag or arrow keys
+├── interception_input.py # Kernel-level input via Interception driver
+├── setup_interception.py # Interactive Interception driver setup
+├── config.py             # All tunable constants
+├── gui.py                # GUI interface
+├── debug_grid.py         # Debug visualization
+├── convert_weights.py    # Weight format converter
 ├── requirements.txt
 └── README.md
 ```
