@@ -1,6 +1,6 @@
-# Ragnarok Origin Classic - 2048 Auto-Solver
+# Ragnarok Origin Classic - Foxball (2048) game Auto-Solver
 
-Watches a region of ROOC Client, parses the 2048 board, computes the best move with expectimax, and sends a swipe. Features a GUI built with customtkinter for setup, calibration, and live board monitoring. Requires Interception to be installed in order for the key events to work.
+Watches a region of ROOC Client's Foxball mini-game, parses the 2048 board, computes the best move with expectimax, and sends a swipe. Features a GUI built with customtkinter for setup, calibration, and live board monitoring. Requires Interception to be installed in order for the key events to work.
 
 ## Pipeline
 
